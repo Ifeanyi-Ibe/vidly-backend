@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const config = require("config");
 const genreRoutes = require("./routes/genre");
+const customerRoutes = require("./routes/customer");
 const db = require("./db");
 
 require("dotenv").config();
@@ -25,4 +26,6 @@ console.log(config.get("host.mail"));
 db();
 
 app.use("/api/genre", genreRoutes);
+app.use("/api/customer", customerRoutes);
+
 app.listen(PORT, console.log(`App is listening on port ${PORT}`));
