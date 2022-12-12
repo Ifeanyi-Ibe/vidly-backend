@@ -1,11 +1,5 @@
 const express = require("express");
-const validateGenre = require("../util/validateGenre");
-const Genre = require("../model/genre");
-const Joi = require("joi");
-
-const schema = Joi.object({
-	name: Joi.string().min(3).required(),
-});
+const { Genre, validate } = require("../models/genre");
 
 class GenreController {
 	constructor() {}
@@ -17,11 +11,8 @@ class GenreController {
 	};
 
 	addGenre = async function (req, res) {
-		const { error, value } = schema.validate(req.body);
-		if (error) {
-			console.error(error);
-			return res.status(400).send(error.details[0].message);
-		}
+		const { error, value } = validate(req.body);
+		if (error) return res.status(400).send(error.details[0].message);
 
 		let genre = new Genre({ name: req.body.name });
 		genre = await genre.save();
@@ -30,7 +21,7 @@ class GenreController {
 	};
 
 	editGenre = async function (req, res) {
-		const { error } = schema.validate(req.body);
+		const { error, value } = validate(req.body);
 		if (error) return res.status(400).send(error.details[0].message);
 
 		const { id } = req.params;
