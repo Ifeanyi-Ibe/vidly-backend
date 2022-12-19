@@ -1,5 +1,4 @@
-const express = require("express");
-var ObjectId = require("mongoose").Types.ObjectId;
+const ObjectId = require("mongoose").Types.ObjectId;
 const { Customer, validate } = require("../models/customer");
 
 class CustomerController {
@@ -10,6 +9,7 @@ class CustomerController {
 
 		if (!customers || customers.length === 0)
 			return res.send("No customers found!");
+
 		res.status(200).send(customers);
 	};
 
@@ -39,7 +39,7 @@ class CustomerController {
 				.send("A customer with the provided email already exists.");
 
 		let customer = new Customer({ name, email, phone, isGold });
-		customer.save();
+		await customer.save();
 
 		res.status(200).send(customer);
 	};

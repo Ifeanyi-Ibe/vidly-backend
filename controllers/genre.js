@@ -1,4 +1,3 @@
-const express = require("express");
 const { Genre, validate } = require("../models/genre");
 
 class GenreController {
@@ -14,8 +13,11 @@ class GenreController {
 		const { error, value } = validate(req.body);
 		if (error) return res.status(400).send(error.details[0].message);
 
-		let genre = new Genre({ name: req.body.name });
-		genre = await genre.save();
+		let genre = await Genre.findOne({ name: req.body.name });
+		if (genre) return res.status(400).send("This genre already exists.");
+
+		genre = new Genre({ name: req.body.name });
+		await genre.save();
 
 		res.send(genre);
 	};

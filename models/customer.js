@@ -38,5 +38,5 @@ const validateCustomer = (customer) => {
 	return schema.validate(customer);
 };
 
-exports.Customer = new mongoose.model("Customer", customerSchema);
+exports.Customer = mongoose.model("Customer", customerSchema);
 exports.validate = validateCustomer;
